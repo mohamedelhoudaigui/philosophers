@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo_bonus.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,7 +14,7 @@
 
 # define PHILO_H
 
-# include <pthread.h>
+# include <semaphore.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -36,20 +36,6 @@ typedef struct s_data
 	long long	num_to_eat;
 }				t_data;
 
-typedef struct s_philo
-{
-	t_data			*data;
-	struct s_philo	*next;
-	pthread_t		*thread;
-	pthread_mutex_t	*fork;
-	pthread_mutex_t	*print;
-	pthread_mutex_t	*edit;
-	int				times_eat;
-	int				philo_num;
-	long long		start_time;
-	long long		timer;
-}				t_philo;
-
 // garb_col.c :
 void		clear_list(t_garb *list);
 void		add_node(t_garb **list, t_garb *node);
@@ -61,28 +47,17 @@ int			check_args(int ac, char **av);
 t_data		*extract_args(int ac, char **av);
 void		p_error(void);
 
-// c_linked_list :
-t_philo		*create_philo(t_data *data, pthread_mutex_t *print);
-void		add_philo(t_philo **head, t_philo *philo);
-t_philo		*create_philos(t_data *data);
-
-// routine.c : 
-void		start_sim(t_philo *philo);
-void		eat(t_philo *philo);
-void		take_fork(t_philo *philo);
-void		philo_sleep(t_philo *philo);
-void		thinking(t_philo *philo);
-
 // main.c :
-void		destroy_all(t_philo *head);
 int			main(int ac, char **av);
-void		*routine(void *arg);
 
-// time.c :
-long long	get_time(void);
-bool		is_dead(t_philo *philo);
-void		sleep_opt(long long time);
-void		grim_reaper(t_philo *philo);
-bool		all_eat(t_philo *philo);
+// time.c
+long long	get_time();
+void	ft_usleep(long long time);
+
+// routine.c :
+void	*routine(sem_t **forks, unsigned int i, t_data *data, long long start);
+
+// create_philo.c :
+void	create_philo(t_data *data);
 
 #endif

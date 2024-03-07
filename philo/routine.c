@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 01:14:22 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/06 03:44:26 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/07 12:58:01 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	start_sim(t_philo *philo)
 	while (tmp && i < tmp->data->philos_num)
 	{
 		if (i % 2 == 0)
-			usleep(100);
+			usleep(1000);
 		pthread_create(tmp->thread, NULL, &routine, tmp);
 		pthread_detach(*tmp->thread);
 		i++;
