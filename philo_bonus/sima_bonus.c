@@ -1,34 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_bonus.c                                      :+:      :+:    :+:   */
+/*   sima_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/07 11:05:47 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/08 22:42:34 by mel-houd         ###   ########.fr       */
+/*   Created: 2024/03/08 16:14:57 by mel-houd          #+#    #+#             */
+/*   Updated: 2024/03/08 16:17:47 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-int	main(int ac, char **av)
+sem_t	*sema_create(char *name, int value)
 {
-	t_data	*data;
-	sem_t	*print;
-	sem_t	*forks;
-	sem_t	*end;		
+	sem_t	*sema;
 
-	data = extract_args(ac, av);
-	if (!data)
-	{
-		p_error();
-		return (1);
-	}
-	print = sema_create("print", 1);
-	end = sema_create("end", 1);
-	forks = sema_create("forks", data->philos_num);
-	data->end = end;
-	create_philos(data, print, forks);
-	return (0);
+	sem_unlink(name);
+	sema = sem_open(name, O_CREAT, 0777, value);
+	return (sema);
 }

@@ -1,5 +1,5 @@
-SRCS = ft_atoi_bonus.c garb_col_bonus.c parse_bonus.c philo_bonus.c time_bonus.c routine_bonus.c create_philo.c
-		
+SRCS = ft_atoi_bonus.c garb_col_bonus.c parse_bonus.c philo_bonus.c time_bonus.c routine_bonus.c create_philo_bonus.c \
+		sima_bonus.c wait_bonus.c
 
 OBJS = $(SRCS:.c=.o)
 

@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_bonus.h                                      :+:      :+:    :+:   */
+/*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:17:29 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/09 14:58:57 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/06 04:32:45 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_BONUS_H
+#ifndef PHILO_H
 
-# define PHILO_BONUS_H
+# define PHILO_H
 
+# include <pthread.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <sys/time.h>
 # include <stdbool.h>
-# include <pthread.h>
-# include <semaphore.h>
-# include <signal.h>
 
 typedef struct s_garb
 {
@@ -36,23 +34,20 @@ typedef struct s_data
 	long long	time_to_eat;
 	long long	time_to_sleep;
 	long long	num_to_eat;
-	sem_t		*end;
-	pid_t		*proc_arr;
 }				t_data;
 
 typedef struct s_philo
 {
-	pid_t			philo_num;
-	long long		start;
-	sem_t			*print;
-	sem_t			*forks;
-	sem_t			*done_eat_sem;
 	t_data			*data;
-	bool			is_dead;
-	bool			done_eat;
-	int				num_to_eat;
-	long long		timer;
 	struct s_philo	*next;
+	pthread_t		*thread;
+	pthread_mutex_t	*fork;
+	pthread_mutex_t	*print;
+	pthread_mutex_t	*edit;
+	int				times_eat;
+	int				philo_num;
+	long long		start_time;
+	long long		timer;
 }				t_philo;
 
 // garb_col.c :
@@ -66,34 +61,28 @@ int			check_args(int ac, char **av);
 t_data		*extract_args(int ac, char **av);
 void		p_error(void);
 
-// main.c :
-int			main(int ac, char **av);
-
-// time.c
-long long	get_time(void);
-void		ft_usleep(long long time);
-bool		is_dead(t_philo *philo);
-void		*grim_r(void *arg);
-
-// routine.c :
-void		i_am_dead(t_philo *philo);
-void		take_fork(t_philo *philo);
-void		eat(t_philo *philo);
-void		sleep_philo(t_philo *philo);
-void		routine(t_philo *philo);
-
-// create_philo.c :
-void		create_philos(t_data *data, sem_t *print, sem_t *forks);
+// c_linked_list :
+t_philo		*create_philo(t_data *data, pthread_mutex_t *print);
 void		add_philo(t_philo **head, t_philo *philo);
-void		clean_up(sem_t *print, sem_t *forks);
-t_philo		*create_philo(t_data *data, int i, sem_t *print, sem_t *forks);
+t_philo		*create_philos(t_data *data);
 
-// sima_bonus.c :
-sem_t		*sema_create(char *name, int value);
+// routine.c : 
+void		start_sim(t_philo *philo);
+void		eat(t_philo *philo);
+void		take_fork(t_philo *philo);
+void		philo_sleep(t_philo *philo);
+void		thinking(t_philo *philo);
 
-// wait_bonus.c :
-void		kill_all(pid_t *proc_arr, t_data *data);
-void		*grim(void *arg);
-void		wait_philo(t_data *data, pid_t *proc_arr);
+// main.c :
+void		destroy_all(t_philo *head);
+int			main(int ac, char **av);
+void		*routine(void *arg);
+
+// time.c :
+long long	get_time(void);
+bool		is_dead(t_philo *philo);
+void		sleep_opt(long long time);
+void		grim_reaper(t_philo *philo);
+bool		all_eat(t_philo *philo);
 
 #endif
