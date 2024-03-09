@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 17:36:14 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/09 14:56:47 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/09 22:04:07 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ long long	get_time(void)
 
 void	ft_usleep(long long time)
 {
-	long long	start;
+	long long	cur_time;
 
-	start = get_time();
-	while (get_time() - start < time)
+	cur_time = get_time();
+	while (get_time() < cur_time + time)
 		usleep(100);
 }
 
@@ -52,4 +52,13 @@ void	*grim_r(void *arg)
 	i_am_dead(philo);
 	sem_post(philo->data->end);
 	return (NULL);
+}
+
+void	sleep_philo(t_philo *philo)
+{
+	sem_wait(philo->print);
+	printf("%lld %d is sleeping\n", get_time() - philo->start,
+		philo->philo_num + 1);
+	sem_post(philo->print);
+	ft_usleep(philo->data->time_to_sleep);
 }

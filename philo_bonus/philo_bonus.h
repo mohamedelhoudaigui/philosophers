@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:17:29 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/09 14:58:57 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/09 22:04:14 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ long long	get_time(void);
 void		ft_usleep(long long time);
 bool		is_dead(t_philo *philo);
 void		*grim_r(void *arg);
+void		sleep_philo(t_philo *philo);
 
 // routine.c :
 void		i_am_dead(t_philo *philo);
 void		take_fork(t_philo *philo);
 void		eat(t_philo *philo);
-void		sleep_philo(t_philo *philo);
 void		routine(t_philo *philo);
 
 // create_philo.c :

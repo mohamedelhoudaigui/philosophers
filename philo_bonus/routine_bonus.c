@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 17:37:47 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/09 15:00:05 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/09 22:05:56 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,18 @@ void	i_am_dead(t_philo *philo)
 	sem_post(philo->data->end);
 }
 
-void	take_fork(t_philo *philo)
+void	thinking(t_philo *philo)
 {
-	if (philo->num_to_eat == 0)
-		exit(0);
 	sem_wait(philo->print);
 	printf("%lld %d is thinking\n", get_time() - philo->start,
 		philo->philo_num + 1);
 	sem_post(philo->print);
+}
+
+void	take_fork(t_philo *philo)
+{
+	if (philo->num_to_eat == 0)
+		exit(0);
 	sem_wait(philo->forks);
 	sem_wait(philo->print);
 	printf("%lld %d has taken a fork\n", get_time() - philo->start,
@@ -45,20 +49,11 @@ void	eat(t_philo *philo)
 	printf("%lld %d is eating\n", get_time() - philo->start,
 		philo->philo_num + 1);
 	sem_post(philo->print);
+	philo->timer = get_time();
 	ft_usleep(philo->data->time_to_eat);
 	philo->num_to_eat -= 1;
-	philo->timer += philo->data->time_to_die;
 	sem_post(philo->forks);
 	sem_post(philo->forks);
-}
-
-void	sleep_philo(t_philo *philo)
-{
-	sem_wait(philo->print);
-	printf("%lld %d is sleeping\n", get_time() - philo->start,
-		philo->philo_num + 1);
-	sem_post(philo->print);
-	ft_usleep(philo->data->time_to_sleep);
 }
 
 void	routine(t_philo *philo)
@@ -73,5 +68,6 @@ void	routine(t_philo *philo)
 		take_fork(philo);
 		eat(philo);
 		sleep_philo(philo);
+		thinking(philo);
 	}
 }

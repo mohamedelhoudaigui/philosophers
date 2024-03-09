@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 01:48:08 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/06 03:44:53 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/09 20:19:50 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ bool	is_dead(t_philo *philo)
 	long long	philo_time;
 
 	pthread_mutex_lock(philo->edit);
-	philo_time = philo->timer + philo->data->time_to_die;
+	philo_time = philo->timer;
 	pthread_mutex_unlock(philo->edit);
-	if (get_time() > philo_time)
+	if (get_time() > philo_time + philo->data->time_to_die)
 		return (true);
 	return (false);
 }
@@ -69,7 +69,7 @@ void	grim_reaper(t_philo *philo)
 		if (is_dead(philo) == true)
 		{
 			pthread_mutex_lock(philo->print);
-			printf("%lld %d is died\n", get_time() - philo->start_time,
+			printf("%lld %d died\n", get_time() - philo->start_time,
 				philo->philo_num + 1);
 			return ;
 		}

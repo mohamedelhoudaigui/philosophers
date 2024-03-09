@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 01:14:22 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/07 12:58:01 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/09 22:05:44 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,15 @@ void	eat(t_philo *philo)
 	printf("%lld %d is eating\n", get_time() - philo->start_time,
 		philo->philo_num + 1);
 	pthread_mutex_unlock(philo->print);
-	sleep_opt(philo->data->time_to_eat);
-	pthread_mutex_unlock(philo->fork);
-	pthread_mutex_unlock(philo->next->fork);
 	pthread_mutex_lock(philo->edit);
-	philo->timer += philo->data->time_to_die;
+	philo->timer = get_time();
+	pthread_mutex_unlock(philo->edit);
+	sleep_opt(philo->data->time_to_eat);
+	pthread_mutex_lock(philo->edit);
 	philo->times_eat -= 1;
 	pthread_mutex_unlock(philo->edit);
+	pthread_mutex_unlock(philo->fork);
+	pthread_mutex_unlock(philo->next->fork);
 }
 
 void	philo_sleep(t_philo *philo)
@@ -65,9 +67,9 @@ void	start_sim(t_philo *philo)
 
 	tmp = philo;
 	i = 0;
-	while (tmp && i < tmp->data->philos_num)
+	while (i < tmp->data->philos_num)
 	{
-		if (i % 2 == 0)
+		if (tmp->philo_num - 1 % 2 == 0)
 			usleep(1000);
 		pthread_create(tmp->thread, NULL, &routine, tmp);
 		pthread_detach(*tmp->thread);

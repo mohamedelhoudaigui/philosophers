@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:17:29 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/06 04:32:45 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/09 22:05:02 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void		p_error(void);
 // c_linked_list :
 t_philo		*create_philo(t_data *data, pthread_mutex_t *print);
 void		add_philo(t_philo **head, t_philo *philo);
-t_philo		*create_philos(t_data *data);
+t_philo		*create_philos(t_data *data, pthread_mutex_t *print);
 
 // routine.c : 
 void		start_sim(t_philo *philo);

@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:24:43 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/06 03:39:38 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/09 20:07:40 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,17 @@ void	add_philo(t_philo **head, t_philo *philo)
 	base ->next = philo;
 }
 
-t_philo	*create_philos(t_data *data)
+t_philo	*create_philos(t_data *data, pthread_mutex_t *print)
 {
 	int				i;
-	pthread_mutex_t	print;
 	t_philo			*head;
 	t_philo			*new_philo;
 
 	i = 0;
 	head = NULL;
-	pthread_mutex_init(&print, NULL);
 	while (i < data->philos_num)
 	{
-		new_philo = create_philo(data, &print);
+		new_philo = create_philo(data, print);
 		if (!new_philo)
 			return (NULL);
 		new_philo->philo_num = i;

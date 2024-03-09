@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:11:58 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/06 03:44:32 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/09 22:04:52 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,19 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	while (true)
 	{
-		thinking(philo);
 		take_fork(philo);
 		eat(philo);
 		philo_sleep(philo);
+		thinking(philo);
 	}
 	return (NULL);
 }
 
 int	main(int ac, char **av)
 {
-	t_data	*data;
-	t_philo	*head;
+	t_data			*data;
+	t_philo			*head;
+	pthread_mutex_t	print;
 
 	data = extract_args(ac, av);
 	if (!data)
@@ -54,7 +55,8 @@ int	main(int ac, char **av)
 		p_error();
 		return (1);
 	}
-	head = create_philos(data);
+	pthread_mutex_init(&print, NULL);
+	head = create_philos(data, &print);
 	if (!head)
 		return (1);
 	start_sim(head);
