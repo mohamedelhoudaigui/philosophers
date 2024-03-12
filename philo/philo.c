@@ -55,6 +55,11 @@ int	main(int ac, char **av)
 		p_error();
 		return (1);
 	}
+	if (data->time_to_eat == 0)
+	{
+		gb_malloc(0, 1);
+		return (0);
+	}
 	pthread_mutex_init(&print, NULL);
 	head = create_philos(data, &print);
 	if (!head)
