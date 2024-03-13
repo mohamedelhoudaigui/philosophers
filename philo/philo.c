@@ -12,6 +12,11 @@
 
 #include "philo.h"
 
+void	p_error(void)
+{
+	write(2, "input error\n", 12);
+}
+
 void	destroy_all(t_philo *head)
 {
 	int	i;
@@ -26,6 +31,18 @@ void	destroy_all(t_philo *head)
 		head = head->next;
 	}
 	exit(0);
+}
+
+void	*rout_eat(void *arg)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	while (1)
+	{
+		if (check_eat(philo) == true)
+			destroy_all(philo);
+	}
 }
 
 void	*routine(void *arg)

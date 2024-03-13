@@ -60,7 +60,9 @@ void		*gb_malloc(size_t size, int type);
 int			ft_atoi(const char *str);
 int			check_args(int ac, char **av);
 t_data		*extract_args(int ac, char **av);
-void		p_error(void);
+bool		check_overflow(char **av);
+int			ft_strncmp(char *s1, char *s2, int n);
+int			ft_strlen(char *str);
 
 // c_linked_list :
 t_philo		*create_philo(t_data *data, pthread_mutex_t *print);
@@ -78,6 +80,8 @@ void		thinking(t_philo *philo);
 void		destroy_all(t_philo *head);
 int			main(int ac, char **av);
 void		*routine(void *arg);
+void		p_error(void);
+void		*rout_eat(void *arg);
 
 // time.c :
 long long	get_time(void);

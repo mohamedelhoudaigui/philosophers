@@ -64,10 +64,13 @@ void		*gb_malloc(size_t size, int type);
 int			ft_atoi(const char *str);
 int			check_args(int ac, char **av);
 t_data		*extract_args(int ac, char **av);
-void		p_error(void);
+int			ft_strlen(char *str);
+int			ft_strncmp(char *s1, char *s2, int n);
+bool		check_overflow(char **av);
 
 // main.c :
 int			main(int ac, char **av);
+void		p_error(void);
 
 // time.c
 long long	get_time(void);

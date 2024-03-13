@@ -12,6 +12,11 @@
 
 #include "philo_bonus.h"
 
+void	p_error(void)
+{
+	write(2, "input error\n", 12);
+}
+
 int	main(int ac, char **av)
 {
 	t_data	*data;

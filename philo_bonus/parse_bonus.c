@@ -12,11 +12,6 @@
 
 #include "philo_bonus.h"
 
-void	p_error(void)
-{
-	write(2, "input error\n", 12);
-}
-
 int	check_args(int ac, char **av)
 {
 	int	i;
@@ -41,11 +36,60 @@ int	check_args(int ac, char **av)
 	return (0);
 }
 
+int	ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+int	ft_strncmp(char *s1, char *s2, int n)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && i < n)
+	{
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
+		++i;
+	}
+	if (i != n)
+		return (s1[i] - s2[i]);
+	return (0);
+}
+
+bool	check_overflow(char **av)
+{
+	int	i;
+
+	i = 1;
+	while (av[i])
+	{
+		if (ft_strlen(av[i]) > 10)
+			return (false);
+		i++;
+	}
+	i = 1;
+	while (av[i])
+	{
+		if (ft_strncmp(av[i], "2147483647", ft_strlen(av[i])) > 0)
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
 t_data	*extract_args(int ac, char **av)
 {
 	t_data	*data;
 
 	if (check_args(ac, av) == 1)
+		return (NULL);
+	if (check_overflow(av) == false)
 		return (NULL);
 	data = gb_malloc(sizeof(t_data), 0);
 	if (!data)
@@ -58,8 +102,8 @@ t_data	*extract_args(int ac, char **av)
 		data->num_to_eat = ft_atoi(av[5]);
 	else
 		data->num_to_eat = -1;
-	if (data->philos_num < 0 || data->time_to_die < 0 || data->time_to_eat < 0
-		|| data->time_to_sleep < 0)
+	if (data->philos_num <= 0 || data->time_to_die <= 0
+		|| data->time_to_eat <= 0 || data->time_to_sleep <= 0)
 	{
 		free(data);
 		return (NULL);

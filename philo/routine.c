@@ -62,18 +62,6 @@ void	philo_sleep(t_philo *philo)
 	sleep_opt(philo->data->time_to_sleep);
 }
 
-void	*rout_eat(void *arg)
-{
-	t_philo *philo;
-
-	philo = (t_philo *)arg;
-	while (1)
-	{
-		if (check_eat(philo) == true)
-			destroy_all(philo);
-	}
-}
-
 void	start_sim(t_philo *philo)
 {
 	int			i;
