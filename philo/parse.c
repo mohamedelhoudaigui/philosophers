@@ -58,8 +58,8 @@ t_data	*extract_args(int ac, char **av)
 		data->num_to_eat = ft_atoi(av[5]);
 	else
 		data->num_to_eat = -1;
-	if (data->philos_num < 0 || data->time_to_die < 0 || data->time_to_eat < 0
-		|| data->time_to_sleep < 0)
+	if (data->philos_num <= 0 || data->time_to_die <= 0 || data->time_to_eat <= 0
+		|| data->time_to_sleep <= 0)
 	{
 		free(data);
 		return (NULL);

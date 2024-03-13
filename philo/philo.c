@@ -33,7 +33,7 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (true)
+	while (philo->sim_end == false)
 	{
 		take_fork(philo);
 		eat(philo);
@@ -54,11 +54,6 @@ int	main(int ac, char **av)
 	{
 		p_error();
 		return (1);
-	}
-	if (data->time_to_eat == 0)
-	{
-		gb_malloc(0, 1);
-		return (0);
 	}
 	pthread_mutex_init(&print, NULL);
 	head = create_philos(data, &print);

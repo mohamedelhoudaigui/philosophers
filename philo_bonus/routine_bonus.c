@@ -30,7 +30,10 @@ void	thinking(t_philo *philo)
 void	take_fork(t_philo *philo)
 {
 	if (philo->num_to_eat == 0)
-		exit(0);
+	{
+		philo->done_eat = true;
+		sem_post(philo->end);
+	}
 	sem_wait(philo->forks);
 	sem_wait(philo->print);
 	printf("%lld %d has taken a fork\n", get_time() - philo->start,
@@ -51,7 +54,8 @@ void	eat(t_philo *philo)
 	sem_post(philo->print);
 	philo->timer = get_time();
 	ft_usleep(philo->data->time_to_eat);
-	philo->num_to_eat -= 1;
+	if (philo->num_to_eat != 0)
+		philo->num_to_eat -= 1;
 	sem_post(philo->forks);
 	sem_post(philo->forks);
 }
@@ -60,6 +64,7 @@ void	routine(t_philo *philo)
 {
 	pthread_t	grim;
 
+	sem_wait(philo->end);
 	pthread_create(&grim, NULL, &grim_r, philo);
 	if (philo->philo_num % 2 == 2)
 		usleep(1000);

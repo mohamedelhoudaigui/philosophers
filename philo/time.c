@@ -41,37 +41,23 @@ void	sleep_opt(long long time)
 		usleep(100);
 }
 
-bool	all_eat(t_philo *philo)
-{
-	int		i;
-	bool	value;
-
-	i = 0;
-	while (philo && i < philo->data->philos_num)
-	{
-		pthread_mutex_lock(philo->edit);
-		value = philo->times_eat;
-		pthread_mutex_unlock(philo->edit);
-		if (value != 0)
-			return (false);
-		philo = philo->next;
-		i++;
-	}
-	return (true);
-}
-
 void	grim_reaper(t_philo *philo)
 {
+	t_philo	*save;
+
+	save = philo;
 	while (philo)
 	{
-		if (all_eat(philo) == true)
-			return ;
-		if (is_dead(philo) == true)
+		if (philo->done_eating == false)
 		{
-			pthread_mutex_lock(philo->print);
-			printf("%lld %d died\n", get_time() - philo->start_time,
-				philo->philo_num + 1);
-			return ;
+			if (is_dead(philo) == true)
+			{
+				pthread_mutex_lock(philo->print);
+				printf("%lld %d died\n", get_time() - philo->start_time,
+					philo->philo_num + 1);
+				destroy_all(save);
+				exit(0);
+			}
 		}
 		philo = philo->next;
 	}

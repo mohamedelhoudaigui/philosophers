@@ -48,6 +48,8 @@ typedef struct s_philo
 	int				philo_num;
 	long long		start_time;
 	long long		timer;
+	bool			done_eating;
+	bool			sim_end;
 }				t_philo;
 
 // garb_col.c :

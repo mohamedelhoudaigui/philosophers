@@ -46,7 +46,7 @@ typedef struct s_philo
 	long long		start;
 	sem_t			*print;
 	sem_t			*forks;
-	sem_t			*done_eat_sem;
+	sem_t			*end;
 	t_data			*data;
 	bool			is_dead;
 	bool			done_eat;
@@ -85,15 +85,15 @@ void		routine(t_philo *philo);
 // create_philo.c :
 void		create_philos(t_data *data, sem_t *print, sem_t *forks);
 void		add_philo(t_philo **head, t_philo *philo);
-void		clean_up(sem_t *print, sem_t *forks);
+void		clean_up(t_philo *philo);
 t_philo		*create_philo(t_data *data, int i, sem_t *print, sem_t *forks);
 
 // sima_bonus.c :
 sem_t		*sema_create(char *name, int value);
 
 // wait_bonus.c :
-void		kill_all(pid_t *proc_arr, t_data *data);
+void		kill_all(pid_t *proc_arr, t_data *data, t_philo *philo);
 void		*grim(void *arg);
-void		wait_philo(t_data *data, pid_t *proc_arr);
+void		wait_philo(t_data *data, t_philo *philo, pid_t *proc_arr);
 
 #endif
