@@ -25,7 +25,7 @@ void	destroy_all(t_philo *head)
 		i++;
 		head = head->next;
 	}
-	gb_malloc(0, 1);
+	exit(0);
 }
 
 void	*routine(void *arg)
@@ -33,7 +33,7 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (philo->sim_end == false)
+	while (philo->done_eat == false)
 	{
 		take_fork(philo);
 		eat(philo);
@@ -60,6 +60,5 @@ int	main(int ac, char **av)
 	if (!head)
 		return (1);
 	start_sim(head);
-	destroy_all(head);
 	return (0);
 }

@@ -15,9 +15,7 @@
 t_philo	*create_philo(t_data *data, int i, sem_t *print, sem_t *forks)
 {
 	t_philo	*philo;
-	sem_t	*end;
 
-	end = sema_create("sem", 1);
 	philo = gb_malloc(sizeof(t_philo), 0);
 	philo->data = data;
 	philo->philo_num = i;
@@ -28,7 +26,6 @@ t_philo	*create_philo(t_data *data, int i, sem_t *print, sem_t *forks)
 	philo->forks = forks;
 	philo->start = get_time();
 	philo->timer = get_time();
-	philo->end = end;
 	philo->next = NULL;
 	return (philo);
 }
@@ -50,18 +47,12 @@ void	add_philo(t_philo **head, t_philo *philo)
 	d_head->next = philo;
 }
 
-void	clean_up(t_philo *philo)
+void	clean_up(sem_t *print, sem_t *forks)
 {
-	sem_close(philo->forks);
-	sem_close(philo->print);
+	sem_close(forks);
+	sem_close(print);
 	sem_unlink("forks");
 	sem_unlink("print");
-	while (philo->next != NULL)
-	{
-		sem_close(philo->end);
-		sem_unlink("sem");
-		philo = philo->next;
-	}
 	gb_malloc(0, 1);
 }
 
@@ -88,5 +79,6 @@ void	create_philos(t_data *data, sem_t *print, sem_t *forks)
 			routine(new_philo);
 		i++;
 	}
-	wait_philo(data, philo, proc_arr);
+	wait_philo(data, proc_arr);
+	clean_up(print, forks);
 }

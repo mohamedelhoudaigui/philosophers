@@ -48,8 +48,7 @@ typedef struct s_philo
 	int				philo_num;
 	long long		start_time;
 	long long		timer;
-	bool			done_eating;
-	bool			sim_end;
+	bool			done_eat;
 }				t_philo;
 
 // garb_col.c :
@@ -85,6 +84,6 @@ long long	get_time(void);
 bool		is_dead(t_philo *philo);
 void		sleep_opt(long long time);
 void		grim_reaper(t_philo *philo);
-bool		all_eat(t_philo *philo);
+bool		check_eat(t_philo *philo);
 
 #endif

@@ -12,9 +12,9 @@
 
 #include "philo_bonus.h"
 
-void	kill_all(pid_t *proc_arr, t_data *data, t_philo *philo)
+void	kill_all(pid_t *proc_arr, t_data *data)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (i < data->philos_num)
@@ -22,30 +22,28 @@ void	kill_all(pid_t *proc_arr, t_data *data, t_philo *philo)
 		kill(proc_arr[i], SIGKILL);
 		i++;
 	}
-	(void)philo;
-	// clean_up(philo);
-	exit(0);
 }
 
 void	*grim(void *arg)
 {
-	t_philo	*philo;
+	t_data	*data;
 
-	philo = (t_philo *)arg;
-	sem_wait(philo->data->end);
-	return (kill_all(philo->data->proc_arr, philo->data, philo), NULL);
+	data = (t_data *)arg;
+	sem_wait(data->end);
+	kill_all(data->proc_arr, data);
+	return (NULL);
 }
 
-void	wait_philo(t_data *data, t_philo *philo, pid_t *proc_arr)
+void	wait_philo(t_data *data, pid_t *proc_arr)
 {
+	int			i;
 	pthread_t	grim_t;
 
-	pthread_create(&grim_t, NULL, &grim, philo);
-	pthread_detach(grim_t);
-	while (philo)
+	pthread_create(&grim_t, NULL, &grim, data);
+	i = 0;
+	while (i < data->philos_num)
 	{
-		sem_wait(philo->end);
-		philo = philo->next;
+		waitpid(proc_arr[i], NULL, 0);
+		i++;
 	}
-	kill_all(proc_arr, data, philo);
 }

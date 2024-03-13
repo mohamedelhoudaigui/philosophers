@@ -47,13 +47,8 @@ void	*grim_r(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (true)
-	{
-		if (philo->done_eat == true)
-			return (NULL);
-		if (is_dead(philo) == true)
-			break ;
-	}
+	while (is_dead(philo) == false)
+		continue ;
 	i_am_dead(philo);
 	sem_post(philo->data->end);
 	return (NULL);

@@ -35,9 +35,8 @@ t_philo	*create_philo(t_data *data, pthread_mutex_t *print)
 	philo->print = print;
 	philo->start_time = get_time();
 	philo->timer = get_time();
-	philo->done_eating = false;
-	philo->sim_end = false;
 	philo->times_eat = data->num_to_eat;
+	philo->done_eat = false;
 	return (philo);
 }
 

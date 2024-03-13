@@ -46,11 +46,11 @@ void	eat(t_philo *philo)
 	sleep_opt(philo->data->time_to_eat);
 	pthread_mutex_lock(philo->edit);
 	if (philo->times_eat == 0)
-		philo->done_eating = true;
-	philo->times_eat--;
+		philo->done_eat = true;
+	philo->times_eat -= 1;
 	pthread_mutex_unlock(philo->edit);
-	pthread_mutex_unlock(philo->next->fork);
 	pthread_mutex_unlock(philo->fork);
+	pthread_mutex_unlock(philo->next->fork);
 }
 
 void	philo_sleep(t_philo *philo)
@@ -62,61 +62,40 @@ void	philo_sleep(t_philo *philo)
 	sleep_opt(philo->data->time_to_sleep);
 }
 
-void	*watch_eating(void *arg)
+void	*rout_eat(void *arg)
 {
-	t_philo	*philo;
-	t_philo	*save;
-	t_philo	*end_sim;
-	int		i;
-	int		number;
+	t_philo *philo;
 
-	i = 0;
-	number = 0;
 	philo = (t_philo *)arg;
-	save = philo;
-	end_sim = philo;
-	while (philo)
+	while (1)
 	{
-		if (number == philo->data->philos_num)
-		{
-			pthread_mutex_lock(philo->print);
-			break ;
-		}
-		pthread_mutex_lock(philo->edit);
-		if (philo->done_eating == true)
-			number++;
-		pthread_mutex_unlock(philo->edit);
-			
-		philo = philo->next;
+		if (check_eat(philo) == true)
+			destroy_all(philo);
 	}
-	while (end_sim && i < end_sim->data->philos_num)
-	{
-		end_sim->sim_end = true;
-		end_sim = end_sim->next;
-		i++;
-	}
-	destroy_all(save);
-	exit(0);
 }
 
 void	start_sim(t_philo *philo)
 {
 	int			i;
 	t_philo		*tmp;
-	pthread_t	watch_eat;
+	pthread_t	check_t;
 
 	tmp = philo;
 	i = 0;
 	while (i < tmp->data->philos_num)
 	{
 		if (tmp->philo_num - 1 % 2 == 0)
-			usleep(500);
+			usleep(1000);
 		pthread_create(tmp->thread, NULL, &routine, tmp);
 		pthread_detach(*tmp->thread);
 		i++;
 		tmp = tmp->next;
 	}
-	pthread_create(&watch_eat, NULL, &watch_eating, philo);
-	pthread_detach(watch_eat);
+	if (philo->times_eat != -1)
+	{
+		pthread_create(&check_t, NULL, &rout_eat, philo);
+		pthread_detach(check_t);
+	}
 	grim_reaper(philo);
+	destroy_all(philo);
 }

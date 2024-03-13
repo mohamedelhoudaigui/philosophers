@@ -25,12 +25,6 @@ int	main(int ac, char **av)
 		p_error();
 		return (1);
 	}
-	if (data->num_to_eat == 0 || data->philos_num == 0)
-	{
-		write(2, "bad arguments\n", 14);
-		gb_malloc(0, 1);
-		return (0);
-	}
 	print = sema_create("print", 1);
 	end = sema_create("end", 1);
 	forks = sema_create("forks", data->philos_num);
