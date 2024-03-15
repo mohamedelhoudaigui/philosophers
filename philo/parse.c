@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:23:08 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/06 03:41:53 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/15 19:09:04 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,6 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-int	ft_strncmp(char *s1, char *s2, int n)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] && s2[i] && i < n)
-	{
-		if (s1[i] != s2[i])
-			return (s1[i] - s2[i]);
-		++i;
-	}
-	if (i != n)
-		return (s1[i] - s2[i]);
-	return (0);
-}
-
 bool	check_overflow(char **av)
 {
 	int	i;
@@ -70,13 +54,6 @@ bool	check_overflow(char **av)
 	while (av[i])
 	{
 		if (ft_strlen(av[i]) > 10)
-			return (false);
-		i++;
-	}
-	i = 1;
-	while (av[i])
-	{
-		if (ft_strncmp(av[i], "2147483647", ft_strlen(av[i])) > 0)
 			return (false);
 		i++;
 	}
@@ -94,19 +71,19 @@ t_data	*extract_args(int ac, char **av)
 	data = gb_malloc(sizeof(t_data), 0);
 	if (!data)
 		return (NULL);
-	data->philos_num = ft_atoi(av[1]);
-	data->time_to_die = ft_atoi(av[2]);
-	data->time_to_eat = ft_atoi(av[3]);
-	data->time_to_sleep = ft_atoi(av[4]);
+	assign_values(data, av);
 	if (av[5] != NULL)
+	{
 		data->num_to_eat = ft_atoi(av[5]);
+		if (data->num_to_eat <= 0)
+		{
+			gb_malloc(0, 1);
+			return (NULL);
+		}
+	}
 	else
 		data->num_to_eat = -1;
-	if (data->philos_num <= 0 || data->time_to_die <= 0
-		|| data->time_to_eat <= 0 || data->time_to_sleep <= 0)
-	{
-		free(data);
+	if (check_values(data) == false)
 		return (NULL);
-	}
 	return (data);
 }

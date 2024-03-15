@@ -74,14 +74,16 @@ void	start_sim(t_philo *philo)
 	{
 		if (tmp->philo_num - 1 % 2 == 0)
 			usleep(1000);
-		pthread_create(tmp->thread, NULL, &routine, tmp);
+		if (pthread_create(tmp->thread, NULL, &routine, tmp) != 0)
+			exit(0);
 		pthread_detach(*tmp->thread);
 		i++;
 		tmp = tmp->next;
 	}
 	if (philo->times_eat != -1)
 	{
-		pthread_create(&check_t, NULL, &rout_eat, philo);
+		if (pthread_create(&check_t, NULL, &rout_eat, philo) != 0)
+			exit(0);
 		pthread_detach(check_t);
 	}
 	grim_reaper(philo);

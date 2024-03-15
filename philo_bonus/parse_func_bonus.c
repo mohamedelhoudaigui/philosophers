@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   parse_func_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:23:48 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/07 11:07:56 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/15 19:14:28 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-static int	check_max(int sign, unsigned long long res)
+int	check_max(int sign, unsigned long long res)
 {
 	if (res > 9223372036854775807 && sign == 1)
 	{
@@ -49,4 +49,23 @@ int	ft_atoi(const char *str)
 	while (str[i] && str[i] >= '0' && str[i] <= '9')
 		res = (str[i++] - '0') + (res * 10);
 	return (check_max(sign, res));
+}
+
+void	assign_values(t_data *data, char **av)
+{
+	data->philos_num = ft_atoi(av[1]);
+	data->time_to_die = ft_atoi(av[2]);
+	data->time_to_eat = ft_atoi(av[3]);
+	data->time_to_sleep = ft_atoi(av[4]);
+}
+
+bool	check_values(t_data *data)
+{
+	if (data->philos_num <= 0 || data->time_to_die <= 59
+		|| data->time_to_eat <= 59 || data->time_to_sleep <= 59)
+	{
+		gb_malloc(0, 1);
+		return (false);
+	}
+	return (true);
 }

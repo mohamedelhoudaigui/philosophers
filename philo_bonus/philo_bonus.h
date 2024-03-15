@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:17:29 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/09 22:04:14 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/15 19:15:44 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,10 @@ void		*gb_malloc(size_t size, int type);
 int			ft_atoi(const char *str);
 int			check_args(int ac, char **av);
 t_data		*extract_args(int ac, char **av);
-int			ft_strlen(char *str);
-int			ft_strncmp(char *s1, char *s2, int n);
 bool		check_overflow(char **av);
+int			ft_strlen(char *str);
+bool		check_values(t_data *data);
+void		assign_values(t_data *data, char **av);
 
 // main.c :
 int			main(int ac, char **av);

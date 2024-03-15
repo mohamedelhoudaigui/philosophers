@@ -1,4 +1,4 @@
-SRCS = c_linked_list.c ft_atoi.c garb_col.c parse.c philo.c time.c routine.c
+SRCS = c_linked_list.c parse_func.c garb_col.c parse.c philo.c time.c routine.c
 
 OBJS = $(SRCS:.c=.o)
 

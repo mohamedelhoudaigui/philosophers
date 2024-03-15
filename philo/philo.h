@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:17:29 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/09 22:05:02 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/15 19:05:15 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,9 @@ int			ft_atoi(const char *str);
 int			check_args(int ac, char **av);
 t_data		*extract_args(int ac, char **av);
 bool		check_overflow(char **av);
-int			ft_strncmp(char *s1, char *s2, int n);
 int			ft_strlen(char *str);
+bool		check_values(t_data *data);
+void		assign_values(t_data *data, char **av);
 
 // c_linked_list :
 t_philo		*create_philo(t_data *data, pthread_mutex_t *print);

@@ -1,15 +1,15 @@
-SRCS = ft_atoi_bonus.c garb_col_bonus.c parse_bonus.c philo_bonus.c time_bonus.c routine_bonus.c create_philo_bonus.c \
+SRCS = parse_func_bonus.c garb_col_bonus.c parse_bonus.c philo_bonus.c time_bonus.c routine_bonus.c create_philo_bonus.c \
 		sima_bonus.c wait_bonus.c
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -pthread
+CFLAGS = -Wall -Wextra -Werror
 
 NAME = philo_bonus
 
-all: $(NAME) clean
+all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)

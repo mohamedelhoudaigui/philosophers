@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:11:58 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/09 22:04:52 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/15 19:08:19 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,16 @@ void	*rout_eat(void *arg)
 void	*routine(void *arg)
 {
 	t_philo	*philo;
+	bool	value;
 
 	philo = (t_philo *)arg;
-	while (philo->done_eat == false)
+	while (1)
 	{
+		pthread_mutex_lock(philo->edit);
+		value = philo->done_eat;
+		pthread_mutex_unlock(philo->edit);
+		if (value == true)
+			break ;
 		take_fork(philo);
 		eat(philo);
 		philo_sleep(philo);
