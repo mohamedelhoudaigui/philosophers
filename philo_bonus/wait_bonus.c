@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:57:21 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/09 15:00:47 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/15 21:43:55 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	wait_philo(t_data *data, pid_t *proc_arr)
 	int			i;
 	pthread_t	grim_t;
 
-	pthread_create(&grim_t, NULL, &grim, data);
+	if (pthread_create(&grim_t, NULL, &grim, data) != 0)
+		exit(0);
 	i = 0;
 	while (i < data->philos_num)
 	{

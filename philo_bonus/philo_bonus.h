@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:17:29 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/15 19:15:44 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/15 21:46:12 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ typedef struct s_philo
 	long long		start;
 	sem_t			*print;
 	sem_t			*forks;
-	sem_t			*done_eat_sem;
 	t_data			*data;
 	bool			is_dead;
 	bool			done_eat;

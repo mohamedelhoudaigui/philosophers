@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:11:58 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/15 21:14:10 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/15 21:43:18 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	destroy_all(t_philo *head)
 	int	i;
 
 	pthread_mutex_destroy(head->print);
+	gb_malloc(0, 1);
 	i = 0;
 	while (head && i < head->data->philos_num)
 	{
