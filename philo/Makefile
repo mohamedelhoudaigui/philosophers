@@ -4,14 +4,14 @@ OBJS = $(SRCS:.c=.o)
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -pthread  -g #-fsanitize=thread
 
 NAME = philo
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+	$(CC) -g $(CFLAGS) -o $(NAME) $(OBJS)
 
 %.o: %.c philo.h
 	$(CC) $(CFLAGS) -c $< -o $@

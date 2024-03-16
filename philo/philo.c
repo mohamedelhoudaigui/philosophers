@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:11:58 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/16 22:17:14 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/16 23:11:34 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	destroy_all(t_philo *head)
 	int	i;
 
 	pthread_mutex_destroy(head->print);
-	gb_malloc(0, 1);
 	i = 0;
 	while (head && i < head->data->philos_num)
 	{
@@ -49,18 +48,17 @@ void	*rout_eat(void *arg)
 void	*routine(void *arg)
 {
 	t_philo	*philo;
-	bool	value;
 
 	philo = (t_philo *)arg;
 	while (1)
 	{
-		pthread_mutex_lock(philo->edit);
-		value = philo->done_eat;
-		pthread_mutex_unlock(philo->edit);
-		if (value == true)
-			break ;
 		take_fork(philo);
+		pthread_mutex_lock(philo->edit);
 		eat(philo);
+		pthread_mutex_unlock(philo->edit);
+		sleep_opt(philo->data->time_to_eat);
+		pthread_mutex_unlock(philo->fork);
+		pthread_mutex_unlock(philo->next->fork);
 		philo_sleep(philo);
 		thinking(philo);
 	}

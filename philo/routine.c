@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 01:14:22 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/16 22:21:23 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/16 23:00:37 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,10 @@ void	eat(t_philo *philo)
 	printf("%lld %d is eating\n", get_time() - philo->start_time,
 		philo->philo_num + 1);
 	pthread_mutex_unlock(philo->print);
-
-	pthread_mutex_lock(philo->edit);
 	philo->timer = get_time();
-	pthread_mutex_unlock(philo->edit);
-	
-	sleep_opt(philo->data->time_to_eat);
-	
-	pthread_mutex_lock(philo->edit);
 	if (philo->times_eat == 0)
 		philo->done_eat = true;
-	pthread_mutex_unlock(philo->edit);
-	
-	pthread_mutex_lock(philo->edit);
 	philo->times_eat -= 1;
-	pthread_mutex_unlock(philo->edit);
-	
-	pthread_mutex_unlock(philo->fork);
-	pthread_mutex_unlock(philo->next->fork);
 }
 
 void	philo_sleep(t_philo *philo)

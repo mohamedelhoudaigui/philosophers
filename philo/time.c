@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 01:48:08 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/16 22:18:51 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/16 23:01:26 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,21 @@ long long	get_time(void)
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-bool	is_dead(t_philo *philo)
-{
-	long long	philo_time;
+// bool	is_dead(t_philo *philo)
+// {
+// 	long long	philo_time;
 
-	pthread_mutex_lock(philo->edit);
-	philo_time = philo->timer;
-	if (get_time() > philo_time + philo->data->time_to_die)
-		return (true);
-	pthread_mutex_unlock(philo->edit);
-	return (false);
-}
+// 	pthread_mutex_unlock(philo->edit);
+// 	pthread_mutex_lock(philo->edit);
+// 	philo_time = philo->timer;
+// 	if (get_time() > philo_time + philo->data->time_to_die)
+// 	{
+// 		pthread_mutex_unlock(philo->edit);
+// 		return (true);
+// 	}
+// 	pthread_mutex_unlock(philo->edit);
+// 	return (false);
+// }
 
 void	sleep_opt(long long time)
 {
@@ -61,16 +65,15 @@ bool	check_eat(t_philo *philo)
 
 void	grim_reaper(t_philo *philo)
 {
-	bool	value;
+	long long	philo_time;
 
 	while (philo)
 	{
 		pthread_mutex_lock(philo->edit);
-		value = philo->done_eat;
-		pthread_mutex_unlock(philo->edit);
-		if (value == false)
+		if (philo->done_eat == false)
 		{
-			if (is_dead(philo) == true)
+			philo_time = philo->timer;
+			if (get_time() > philo_time + philo->data->time_to_die)
 			{
 				pthread_mutex_lock(philo->print);
 				printf("%lld %d died\n", get_time() - philo->start_time,
@@ -78,6 +81,7 @@ void	grim_reaper(t_philo *philo)
 				return ;
 			}
 		}
+		pthread_mutex_unlock(philo->edit);
 		philo = philo->next;
 	}
 }
