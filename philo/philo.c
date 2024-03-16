@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:11:58 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/15 21:43:18 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/16 22:17:14 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,6 @@ int	main(int ac, char **av)
 	head = create_philos(data, &print);
 	if (!head)
 		return (1);
-	start_sim(head);
+	start_sim(head, data);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:17:29 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/15 19:05:15 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/16 22:17:30 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void		add_philo(t_philo **head, t_philo *philo);
 t_philo		*create_philos(t_data *data, pthread_mutex_t *print);
 
 // routine.c : 
-void		start_sim(t_philo *philo);
+void		start_sim(t_philo *philo, t_data *data);
 void		eat(t_philo *philo);
 void		take_fork(t_philo *philo);
 void		philo_sleep(t_philo *philo);

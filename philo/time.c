@@ -6,7 +6,7 @@
 /*   By: mel-houd <mel-houd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 01:48:08 by mel-houd          #+#    #+#             */
-/*   Updated: 2024/03/09 20:19:50 by mel-houd         ###   ########.fr       */
+/*   Updated: 2024/03/16 22:18:51 by mel-houd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ bool	is_dead(t_philo *philo)
 
 	pthread_mutex_lock(philo->edit);
 	philo_time = philo->timer;
-	pthread_mutex_unlock(philo->edit);
 	if (get_time() > philo_time + philo->data->time_to_die)
 		return (true);
+	pthread_mutex_unlock(philo->edit);
 	return (false);
 }
 
@@ -44,11 +44,15 @@ void	sleep_opt(long long time)
 bool	check_eat(t_philo *philo)
 {
 	t_philo	*base;
+	bool	value;
 
 	base = philo;
 	while (base->next != philo)
 	{
-		if (base->done_eat == false)
+		pthread_mutex_lock(base->edit);
+		value = base->done_eat;
+		pthread_mutex_unlock(base->edit);
+		if (value == false)
 			return (false);
 		base = base->next;
 	}
@@ -57,9 +61,14 @@ bool	check_eat(t_philo *philo)
 
 void	grim_reaper(t_philo *philo)
 {
+	bool	value;
+
 	while (philo)
 	{
-		if (philo->done_eat == false)
+		pthread_mutex_lock(philo->edit);
+		value = philo->done_eat;
+		pthread_mutex_unlock(philo->edit);
+		if (value == false)
 		{
 			if (is_dead(philo) == true)
 			{
